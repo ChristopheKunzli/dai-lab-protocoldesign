@@ -17,8 +17,19 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        String serverAddress = "10.193.24.73";
-        int serverPort = 1234;
+        if (args.length != 2) {
+            System.out.println("Usage: java -jar Client <serverAddress> <serverPort>");
+            return;
+        }
+        
+        String serverAddress = args[0];
+        int serverPort;
+        try {
+            serverPort = Integer.parseInt(args[1]);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid port number: " + args[1]);
+            return;
+        }
 
         Client client = new Client(serverAddress, serverPort);
         client.run();
