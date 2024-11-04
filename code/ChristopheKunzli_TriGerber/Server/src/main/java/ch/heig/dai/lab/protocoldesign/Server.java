@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class Server {
     final int SERVER_PORT = 1234;
@@ -23,17 +24,55 @@ public class Server {
                      var in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
                      var out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8))) {
 
+                    //Write welcome message
                     System.out.println("CONNECTED");
-                    out.write("Welcome to the calculator server. Supported operations are: ADD, SUB, MUL, DIV, POW, SQRT, FACT, LOG_N\n");
+                    out.write("Welcome to the calculator server. Supported operations are: ");
+                    for (String operation : calculator.supportedOperations) {
+                        out.write(operation + " ");
+                    }
+                    out.write("\n");
                     out.flush();
 
+                    //Read input
                     String line;
-                    while ((line = in.readLine()) != null) {
+                    while ((line = in.readLine()) != null && !line.equalsIgnoreCase("EXIT")) {
                         System.out.println("Received: " + line);
 
-                        if (line.equalsIgnoreCase("EXIT")) {
-                            break;
+                        //Check if input is empty or invalid
+                        if (line.isBlank() || !line.contains(" ")) {
+                            out.write("Invalid operation\n");
+                            out.flush();
+                            continue;
                         }
+
+                        //Parse input
+                        String operation = line.substring(0, line.indexOf(" ")).toUpperCase();
+                        if (!calculator.supportedOperations.contains(operation)) {
+                            out.write("invalid operation\n");
+                            out.flush();
+                            continue;
+                        }
+
+                        String[] parts = line.substring(line.indexOf(" ") + 1).split(" ");
+                        double[] values = Calculator.parseValues(parts);
+
+                        try {
+                            double result = switch (operation) {
+                                case "ADD" -> Calculator.add(values);
+                                case "SUB" -> Calculator.sub(values);
+                                case "MUL" -> Calculator.mul(values);
+                                case "DIV" -> Calculator.div(values);
+                                case "POW" -> Calculator.pow(values);
+                                case "SQRT" -> Calculator.sqrt(values);
+                                case "FACT" -> Calculator.fact(values);
+                                case "LOG_N" -> Calculator.log(values);
+                                default -> 0;
+                            };
+                            out.write("Result: " + result + "\n");
+                        } catch (IllegalArgumentException e) {
+                            out.write(e.getMessage() + "\n");
+                        }
+                        out.flush();
                     }
 
                     System.out.println("DISCONNECTED");
