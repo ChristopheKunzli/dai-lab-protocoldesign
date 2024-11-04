@@ -30,9 +30,6 @@ public class Client {
              BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              Scanner scanner = new Scanner(System.in)) {
 
-            // Send CONNECT message to server
-            writer.println("CONNECT");
-
             // Display the welcome message and supported operations from the server
             String welcomeMessage = reader.readLine();
             if (welcomeMessage != null) {
@@ -86,16 +83,12 @@ public class Client {
             case "SUB":
             case "MUL":
             case "DIV":
-                return checkOperands(tokens, operandCount >= 2);
-
             case "POW":
             case "LOG_N":
-                return checkOperands(tokens, operandCount == 2);
-
+                return checkOperands(tokens, operandCount >= 2);
             case "SQRT":
             case "FACT":
-                return checkOperands(tokens, operandCount == 1);
-
+                return checkOperands(tokens, operandCount >= 1);
             default:
                 return false;
         }
