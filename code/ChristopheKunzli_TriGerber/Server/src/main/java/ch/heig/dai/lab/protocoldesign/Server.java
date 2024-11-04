@@ -24,7 +24,7 @@ public class Server {
                      var in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
                      var out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8))) {
 
-                    //Write welcome message
+                    //Send welcome message
                     System.out.println("CONNECTED");
                     out.write("Welcome to the calculator server. Supported operations are: ");
                     for (String operation : calculator.supportedOperations) {
@@ -37,27 +37,16 @@ public class Server {
                     String line;
                     while ((line = in.readLine()) != null && !line.equalsIgnoreCase("EXIT")) {
                         System.out.println("Received: " + line);
-
-                        //Check if input is empty or invalid
-                        if (line.isBlank() || !line.contains(" ")) {
-                            out.write("Invalid operation\n");
-                            out.flush();
-                            continue;
-                        }
+                        System.out.print("Response: ");
 
                         //Parse input
-                        String operation = line.substring(0, line.indexOf(" ")).toUpperCase();
-                        if (!calculator.supportedOperations.contains(operation)) {
-                            out.write("invalid operation\n");
-                            out.flush();
-                            continue;
-                        }
+                        String operationWord = line.substring(0, line.indexOf(" ")).toUpperCase();
 
-                        String[] parts = line.substring(line.indexOf(" ") + 1).split(" ");
-                        double[] values = Calculator.parseValues(parts);
+                        String[] operands = line.substring(line.indexOf(" ") + 1).split(" ");
+                        double[] values = Calculator.parseValues(operands);
 
                         try {
-                            double result = switch (operation) {
+                            double result = switch (operationWord) {
                                 case "ADD" -> Calculator.add(values);
                                 case "SUB" -> Calculator.sub(values);
                                 case "MUL" -> Calculator.mul(values);
@@ -68,8 +57,10 @@ public class Server {
                                 case "LOG_N" -> Calculator.log(values);
                                 default -> 0;
                             };
+                            System.out.println(result);
                             out.write("Result: " + result + "\n");
                         } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
                             out.write(e.getMessage() + "\n");
                         }
                         out.flush();
