@@ -17,8 +17,8 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        String serverAddress = "1.2.3.4";
-        int serverPort = 12345;
+        String serverAddress = "10.193.24.73";
+        int serverPort = 1234;
 
         Client client = new Client(serverAddress, serverPort);
         client.run();
@@ -96,7 +96,6 @@ public class Client {
 
     private boolean checkOperands(String[] tokens, boolean correctOperandCount) {
         if (!correctOperandCount) {
-            System.out.println("Incorrect number of operands for operation " + tokens[0].toUpperCase());
             return false;
         }
 
