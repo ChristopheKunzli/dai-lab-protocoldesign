@@ -4,11 +4,9 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class Server {
     final int SERVER_PORT = 1234;
-    final Calculator calculator = new Calculator();
 
     public static void main(String[] args) {
         // Create a new server and run it
@@ -27,7 +25,7 @@ public class Server {
                     //Send welcome message
                     System.out.println("CONNECTED");
                     out.write("Welcome to the calculator server. Supported operations are: ");
-                    for (String operation : calculator.supportedOperations) {
+                    for (String operation : Calculator.supportedOperations) {
                         out.write(operation + " ");
                     }
                     out.write("\n");

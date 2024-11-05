@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 public class Calculator {
-    Set<String> supportedOperations = Set.of("ADD", "SUB", "MUL", "DIV", "POW", "SQRT", "FACT", "LOG_N");
+    static Set<String> supportedOperations = Set.of("ADD", "SUB", "MUL", "DIV", "POW", "SQRT", "FACT", "LOG_N");
 
     public static double[] parseValues(String[] values) {
         double[] parsedValues = new double[values.length];
