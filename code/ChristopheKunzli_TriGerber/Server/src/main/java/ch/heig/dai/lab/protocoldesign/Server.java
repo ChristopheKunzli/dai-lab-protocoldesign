@@ -15,7 +15,7 @@ public class Server {
     }
 
     private void run() {
-        try (ServerSocket serverSocket = new ServerSocket(1234)) {
+        try (ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
             System.out.println("Server started on port " + SERVER_PORT);
             while (true) {
                 try (Socket clientSocket = serverSocket.accept();
