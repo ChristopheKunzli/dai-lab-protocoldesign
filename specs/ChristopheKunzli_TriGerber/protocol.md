@@ -8,6 +8,7 @@ as response
 ## Transport layer protocol
 
 - Communication protocol : TCP
+- Server port : 1234
 
 ### Supported operations
 
@@ -47,6 +48,7 @@ The server will respond with the result of the operation. The result will be sen
 - Operations are case-insensitive. (e.g. `ADD` = `add` = `Add`)
 - The server will respond with an error message if the operation results in an error (e.g. division by zero, SQRT of
   negative number, etc.)
+- For operations using a limited amount of operands, the server will ignore any extra operands.
 
 ## Client-specifications
 
@@ -75,7 +77,7 @@ An operation is considered valid if:
 - The operation does not contain an operation word.
 - The operation contains an operation word that is not the first word in the request.
 - The operation contains an operation word that is not in the list of supported operations.
-- The operation contains an incorrect number of operands.
+- The operation contains an incorrect number of operands (not enough operands for requested operation).
 - One or more operands are not numbers.
 - The operands are not separated by a space.
 - The request is empty.
