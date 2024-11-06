@@ -8,8 +8,6 @@ as response
 ## Transport layer protocol
 
 - Communication protocol : TCP
-- Server address : 1.2.3.4
-- Server port : 12345
 
 ### Supported operations
 
@@ -56,6 +54,15 @@ The server will respond with the result of the operation. The result will be sen
 - Type `exit` to close the connection.
 - The client sends the operation to the server and displays the received result.
 - The client will display any error messages received from the server.
+
+### Server ip and port
+Client app receives the server ip and port as arguments when starting the app.
+
+If arguments are not provided, the client show this message and close the app:
+```
+Usage: java -jar Client <serverAddress> <serverPort>
+```
+
 
 ### Error handling client-side
 

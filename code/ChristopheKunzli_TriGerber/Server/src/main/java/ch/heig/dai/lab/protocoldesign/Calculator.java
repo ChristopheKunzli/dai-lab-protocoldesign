@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 public class Calculator {
-    Set<String> supportedOperations = Set.of("ADD", "SUB", "MUL", "DIV", "POW", "SQRT", "FACT", "LOG_N");
+    static Set<String> supportedOperations = Set.of("ADD", "SUB", "MUL", "DIV", "POW", "SQRT", "FACT", "LOG_N");
 
     public static double[] parseValues(String[] values) {
         double[] parsedValues = new double[values.length];
@@ -39,7 +39,8 @@ public class Calculator {
     }
 
     public static double div(double[] values) {
-        if (Arrays.stream(values).anyMatch(value -> value == 0)) throw new IllegalArgumentException("Division by zero");
+        if (Arrays.stream(Arrays.copyOfRange(values, 1, values.length)).anyMatch(value -> value == 0))
+            throw new IllegalArgumentException("Division by zero");
         double result = values[0];
         for (int i = 1; i < values.length; ++i) {
             result /= values[i];
